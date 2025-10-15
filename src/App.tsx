@@ -1,12 +1,18 @@
 import React from 'react'
-import { Counter } from './components/Counter'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
+import { useUserStore } from './store/useUserStore'
 
-function App() {
+export default function App() {
+  const username = useUserStore((s) => s.username)
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Counter />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={username ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
